@@ -1,0 +1,14 @@
+# Rohbilder — nur Quellmaterial fuer bilder-wandeln.py, nicht ausgeliefert
+bilder/roh/
+
+# Interne Projektunterlagen. Diese drei Zeilen loeschen, wenn das Repo PRIVAT ist.
+# Bei einem OEFFENTLICHEN Repo bleiben sie draussen:
+#   BRIEF.md und DESIGN.md weisen das Projekt als Konzeptstudie aus, und genau
+#   das soll an der Seite nicht ablesbar sein.
+#   DESIGNSYSTEM.md ist eine fremde Stilbeschreibung — die gehoert nicht in ein
+#   oeffentliches Repo weiterverteilt.
+BRIEF.md
+DESIGN.md
+DESIGNSYSTEM.md
+
+.DS_Store
