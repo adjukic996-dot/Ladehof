@@ -87,9 +87,37 @@ ul,ol{ margin:0; padding:0 }
 
 .gedaempft{ color:var(--slate) }
 /* Slate auf Fog misst 4,40:1 und faellt durch. Auf getoenten Flaechen
-   uebernimmt Charcoal (7,79:1). Siehe DESIGN.md 5.3. */
-.karte .gedaempft, .fog .gedaempft, .linen .gedaempft{ color:var(--charcoal) }
-.dunkel .gedaempft{ color:var(--linen) }
+   uebernimmt Charcoal (7,79:1). Siehe DESIGN.md 5.3.
+
+   ACHTUNG, hier lag ein Fehler: Zuerst stand hier `.fog` und `.linen`. Diese
+   Klassen gibt es nicht — die Abschnitte heissen `.abschnitt--fog` und
+   `.abschnitt--linen`. Der Selektor traf nie zu, und 23 Textstellen standen
+   weiter auf 4,40:1. Gefunden erst durch die Kontrastpruefung ueber alle
+   Seiten, nicht durch Hinsehen. */
+.karte .gedaempft,
+.abschnitt--fog .gedaempft,
+.abschnitt--linen .gedaempft{ color:var(--charcoal) }
+/* Gedaempfter Text auf dunklem Grund. Gilt fuer die dunkle KARTE und fuer den
+   invertierten ABSCHNITT — beim Nachziehen des Abschnittsrhythmus hatte ich
+   den zweiten Fall vergessen, und Slate auf Forest misst nur 2,63:1. */
+.dunkel .gedaempft,
+.abschnitt--dunkel .gedaempft,
+.abschnitt--dunkel .klappe__innen p{ color:var(--linen) }
+.abschnitt--dunkel{ color:var(--paper) }
+.abschnitt--dunkel .t-body,.abschnitt--dunkel .t-body-sm,
+.abschnitt--dunkel .t-caption,.abschnitt--dunkel .klappe__kopf{ color:var(--paper) }
+.abschnitt--dunkel .gedaempft{ color:var(--linen) }
+
+/* Und zurueck: In der dunklen Karte steckt eine HELLE Karte (der Rechenkasten).
+   Dort wuerde linen auf weiss 1,14:1 ergeben. Die Dunkelregel darf nicht in
+   helle Flaechen hineinlecken. */
+.dunkel .karte--paper .gedaempft,
+.abschnitt--dunkel .karte--paper .gedaempft,
+.abschnitt--dunkel .karte--linen .gedaempft{ color:var(--charcoal) }
+.dunkel .karte--paper,
+.abschnitt--dunkel .karte--paper{ color:var(--charcoal) }
+.dunkel .karte--paper .t-heading-sm,
+.abschnitt--dunkel .karte--paper .t-heading-sm{ color:var(--obsidian) }
 
 /* ===========================================================================
    BEWEGUNG — gemessen an wise.com
@@ -322,6 +350,11 @@ a, .knopf, .segment, .verweis{
 }
 .merkmal h3{ font-size:18px; font-weight:700; color:var(--obsidian) }
 .merkmal p{ font-size:16px; color:var(--slate) }
+/* .merkmal p setzt Slate direkt und umgeht damit .gedaempft. Auf getoenten
+   Flaechen muss auch hier Charcoal stehen — sonst 4,40:1. */
+.abschnitt--fog .merkmal p,
+.abschnitt--linen .merkmal p,
+.karte .merkmal p{ color:var(--charcoal) }
 
 /* Anbieterraster — runde Marken, fuenf Spalten. Hier lebt die Farbe. */
 .anbieter{ display:flex; align-items:center; gap:var(--s12);
@@ -480,4 +513,88 @@ a, .knopf, .segment, .verweis{
 @media(prefers-reduced-motion:reduce){
   .stecker,.stecker__koerper,.stecker__puls{ animation:none }
   .stecker__puls{ stroke-dasharray:none; opacity:.9 }
+}
+
+
+/* ===========================================================================
+   NACHGEZOGEN AUS DEM ABGLEICH MIT DEM DESIGNSYSTEM
+   Drei Befunde aus der Pruefung ueber alle zwoelf Seiten:
+     1. zu viele Lime-Elemente in einem Abschnitt
+     2. fehlender Abschnittsrhythmus (kein invertierter Abschnitt)
+     3. drei gemessene Bewegungen ohne Bauteil
+   ========================================================================= */
+
+/* --- 1. Reiterleiste. Vom System beschrieben als "Segmented Tab Control":
+   Pillenbehaelter, aktiver Reiter in Lime mit dunkler Schrift, rund 40px hoch.
+   Setzt die gemessenen 300 ms auf `color` ein. ---------------------------- */
+.reiterleiste{
+  display:inline-flex; flex-wrap:wrap; gap:var(--s4);
+  background:var(--fog); border-radius:var(--r-pille); padding:var(--s4);
+}
+.reiter{
+  display:inline-flex; align-items:center; min-height:40px;
+  padding:var(--s8) var(--s16); border-radius:var(--r-pille);
+  border:0; background:none; font:inherit; font-size:16px; font-weight:500;
+  color:var(--charcoal); cursor:pointer;
+  transition:color var(--d-reiter) var(--k-schnell),
+             background-color var(--d-reiter) var(--k-schnell);
+}
+.reiter[aria-selected="true"]{ background:var(--lime); color:var(--charcoal) }
+@media(any-hover:hover){ .reiter:not([aria-selected="true"]):hover{ background:var(--linen) } }
+.reiterfeld[hidden]{ display:none }
+
+/* --- 2. Klappfrage mit Chevron. Setzt die gemessenen 300 ms ein. -------- */
+.klappe{
+  border-bottom:1px solid var(--fog); background:none;
+}
+.klappe__kopf{
+  display:flex; align-items:center; justify-content:space-between; gap:var(--s20);
+  width:100%; padding:var(--s24) 0; border:0; background:none; cursor:pointer;
+  font:inherit; text-align:left; color:var(--obsidian);
+}
+.klappe__chevron{
+  flex:0 0 auto; width:20px; height:20px; color:var(--forest);
+  transition:transform var(--d-breite) ease;
+}
+.klappe[data-auf="ja"] .klappe__chevron{ transform:rotate(180deg) }
+.klappe__koerper{ overflow:hidden; height:0 }
+.js .klappe__koerper{ transition:height var(--d-breite) ease }
+.klappe__innen{ padding:0 0 var(--s24); max-width:68ch }
+
+/* --- 3. Karussell. Gemessen: transform und opacity ueber 1000 ms, ease. - */
+.karussell{ position:relative; overflow:hidden }
+.karussell__spur{ display:flex; transition:transform var(--d-karussell) ease }
+.karussell__folie{
+  flex:0 0 100%; opacity:0;
+  transition:transform var(--d-karussell) ease, opacity var(--d-karussell) ease;
+}
+.karussell__folie[aria-hidden="false"]{ opacity:1 }
+.karussell__knoepfe{ display:flex; gap:var(--s8); margin-top:var(--s24) }
+.karussell__punkt{
+  width:10px; height:10px; padding:0; border:0; border-radius:var(--r-pille);
+  background:var(--pebble); cursor:pointer;
+  transition:background-color var(--d-haupt) var(--k-haupt), width var(--d-breite) ease;
+}
+.karussell__punkt[aria-current="true"]{ background:var(--forest); width:28px }
+
+/* --- 4. Invertierter Abschnitt. Das System verlangt den Takt
+   weiss -> hellgruen -> dunkel. Fehlte bisher ganz. --------------------- */
+.abschnitt--dunkel .karte{ background:var(--spruce); color:var(--paper) }
+.abschnitt--dunkel .karte .gedaempft{ color:var(--linen) }
+.abschnitt--dunkel .chip{ background:var(--spruce); color:var(--lime) }
+.abschnitt--dunkel .merkmal h3{ color:var(--lime) }
+.abschnitt--dunkel .merkmal p{ color:var(--linen) }
+.abschnitt--dunkel .merkmal__sinnbild{ background:var(--spruce) }
+.abschnitt--dunkel .merkmal__sinnbild span{ color:var(--lime)!important }
+.abschnitt--dunkel .klappe{ border-bottom-color:rgba(255,255,255,.18) }
+.abschnitt--dunkel .klappe__kopf{ color:var(--paper) }
+.abschnitt--dunkel .klappe__chevron{ color:var(--lime) }
+.abschnitt--dunkel .reiterleiste{ background:var(--spruce) }
+.abschnitt--dunkel .reiter{ color:var(--linen) }
+.abschnitt--dunkel .reiter[aria-selected="true"]{ background:var(--lime); color:var(--charcoal) }
+
+@media(prefers-reduced-motion:reduce){
+  .reiter,.klappe__chevron,.klappe__koerper,.karussell__folie,.karussell__punkt{
+    transition:none!important;
+  }
 }

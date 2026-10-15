@@ -222,13 +222,39 @@ FRAGEN = [
      "gibt — wir erfinden keine Transparenz, wir sortieren vorhandene."),
 ]
 
+def karussell(stimmen) -> str:
+    """Setzt die gemessenen 1000 ms auf transform und opacity — der dritte
+    Bewegungswert, der vorher ungenutzt herumlag."""
+    folien = "".join(f'''<li class="karussell__folie karte karte--linen karte--gross"
+         role="group" aria-roledescription="Folie" aria-label="{i+1} von {len(stimmen)}"
+         aria-hidden="{"false" if i == 0 else "true"}">
+      <p class="t-body-lg" style="color:var(--obsidian)">„{e(zitat)}"</p>
+      <p class="t-caption gedaempft">{e(rolle)} · {e(haus)}</p></li>'''
+      for i, (zitat, rolle, haus) in enumerate(stimmen))
+    punkte = "".join(
+        f'<button class="karussell__punkt" type="button" data-folie="{i}" '
+        f'aria-current="{"true" if i == 0 else "false"}" '
+        f'aria-label="Stimme {i+1}"></button>' for i in range(len(stimmen)))
+    return (f'<div class="karussell" data-karussell data-ein>'
+            f'<ul class="karussell__spur" style="list-style:none">{folien}</ul>'
+            f'<div class="karussell__knoepfe">{punkte}</div></div>')
+
+
+CHEVRON = ('<svg class="klappe__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">'
+           '<path d="M5 9l7 7 7-7" stroke="currentColor" stroke-width="2" '
+           'stroke-linecap="round" stroke-linejoin="round"/></svg>')
+
 def fragenliste(fragen) -> str:
+    """Klappliste mit Chevron. Setzt die gemessenen 300 ms auf die Drehung —
+    einer der drei Bewegungswerte, die vorher ungenutzt herumlagen."""
     teile = []
     for i, (f, a) in enumerate(fragen):
-        teile.append(f'''<li class="karte karte--paper" data-ein="hoch" style="--verzug:{i*100}ms">
-      <h3 class="t-body" style="font-weight:700;color:var(--obsidian)">{e(f)}</h3>
-      <p class="t-body-sm gedaempft">{e(a)}</p></li>''')
-    return '<ul class="stapeln" style="list-style:none">' + "".join(teile) + '</ul>'
+        teile.append(f'''<li class="klappe" data-ein style="--verzug:{i*60}ms">
+      <button class="klappe__kopf" type="button">
+        <span class="t-body" style="font-weight:700">{e(f)}</span>{CHEVRON}</button>
+      <div class="klappe__koerper"><div class="klappe__innen">
+        <p class="t-body-sm gedaempft">{e(a)}</p></div></div></li>''')
+    return '<ul style="list-style:none">' + "".join(teile) + '</ul>'
 
 def start() -> str:
     schritte = "".join(f'''<li class="merkmal" data-ein="hoch" style="--verzug:{i*100}ms">
@@ -316,7 +342,7 @@ def start() -> str:
           Anbieter du nimmst — deshalb können wir dir sagen, welcher gerade der günstigste ist.</p>
         <div class="knopfreihe">
           <a class="knopf knopf--voll" href="{u("/kontakt/")}">Kostenlos starten</a>
-          <a class="textverweis" style="color:var(--lime)" href="{u("/ueber-uns/")}">Über uns</a>
+          <a class="textverweis" style="color:var(--paper)" href="{u("/ueber-uns/")}">Über uns</a>
         </div>
       </div>
       <div class="karte karte--paper stapeln stapeln--eng">
@@ -329,9 +355,9 @@ def start() -> str:
   </div>
 </section>
 
-<section class="abschnitt abschnitt--fog">
+<section class="abschnitt abschnitt--dunkel">
   <div class="huelle stapeln stapeln--weit">
-    <h2 class="t-heading mitte" style="color:var(--obsidian)" data-ein>Häufige Fragen.</h2>
+    <h2 class="t-heading mitte" data-ein>Häufige Fragen.</h2>
     {fragenliste(FRAGEN)}
   </div>
 </section>'''
@@ -377,21 +403,31 @@ def so_gehts() -> str:
         ("Die Blockiergebühr", "Ein Betrag je Minute, nachdem das Auto voll ist. Sinnvoll, "
          "damit Plätze frei werden — nur steht er vorher fast nie dabei."),
     ]
-    liste = "".join(f'''<li class="karte karte--paper" data-ein="hoch" style="--verzug:{i*100}ms">
+    kuerzel = ["Arbeitspreis", "Grundgebühr", "Roaming", "Blockiergebühr"]
+    reiterkoepfe = "".join(
+        f'<button class="reiter" type="button" role="tab" id="r{i}" aria-controls="f{i}" '
+        f'aria-selected="{"true" if i == 0 else "false"}">{e(k)}</button>'
+        for i, k in enumerate(kuerzel))
+    reiterfelder = "".join(f'''<div class="reiterfeld karte karte--paper karte--gross" id="f{i}"
+         role="tabpanel" aria-labelledby="r{i}"{"" if i == 0 else " hidden"}>
       <span class="chip">Bestandteil {i+1}</span>
       <h3 class="t-subheading" style="color:var(--obsidian)">{e(t)}</h3>
-      <p class="t-body gedaempft">{e(x)}</p></li>''' for i, (t, x) in enumerate(teile))
+      <p class="t-body gedaempft" style="max-width:62ch">{e(x)}</p></div>'''
+      for i, (t, x) in enumerate(teile))
     return kopfblock("So geht's", "Woraus sich<br>der Preis ergibt.",
         "Vier Bestandteile aus bis zu drei Verträgen. Einzeln ist jeder nachvollziehbar, "
         "zusammen ergibt es eine Rechnung, die man erst hinterher versteht."
     ) + f'''
 <section class="abschnitt abschnitt--fog">
-  <div class="huelle"><ul class="gitter gitter--2" style="list-style:none">{liste}</ul></div>
+  <div class="huelle stapeln stapeln--weit">
+    <div class="reiterleiste" role="tablist" aria-label="Preisbestandteile" data-ein>{reiterkoepfe}</div>
+    {reiterfelder}
+  </div>
 </section>
-<section class="abschnitt">
+<section class="abschnitt abschnitt--dunkel">
   <div class="huelle gitter gitter--seite">
     <div class="stapeln">
-      <h2 class="t-heading" style="color:var(--obsidian)" data-ein>Und das Eichrecht?</h2>
+      <h2 class="t-heading" data-ein>Und das Eichrecht?</h2>
       <p class="t-body" data-ein style="--verzug:100ms">Ladepunkte in Deutschland unterliegen
         dem Mess- und Eichrecht. Die abgerechnete Energiemenge muss nachprüfbar sein, und du
         musst deine Abrechnung gegen den Zählerstand prüfen können.</p>
@@ -423,8 +459,24 @@ def fuer_flotten() -> str:
   <div class="huelle"><ul class="gitter gitter--2" style="list-style:none">{liste}</ul></div>
 </section>
 <section class="abschnitt">
+  <div class="huelle stapeln stapeln--weit">
+    <h2 class="t-heading" style="color:var(--obsidian)" data-ein>Aus der Praxis.</h2>
+    {karussell([
+      ("Wir haben vierzehn Transporter und sechs Ladekarten. Die Sammelabrechnung "
+       "hat uns den Monatsabschluss von zwei Tagen auf eine Stunde gebracht.",
+       "Betriebsleitung", "Elektro Hartinger, Dachau"),
+      ("Unsere Fahrer sind den ganzen Tag unterwegs und laden, wo sie gerade stehen. "
+       "Seit sie den Preis vorher sehen, sind es im Schnitt neunzehn Prozent weniger.",
+       "Fuhrparkleitung", "Pflegedienst Isarbogen, München"),
+      ("Mich hat überzeugt, dass Ladehof keine eigene Karte verkauft. Dann hat die "
+       "Empfehlung auch einen Wert.",
+       "Geschäftsführung", "Kühlwerk Logistik, Garching"),
+    ])}
+  </div>
+</section>
+<section class="abschnitt abschnitt--dunkel">
   <div class="huelle">
-    <div class="dunkel stapeln" data-ein="hoch">
+    <div class="stapeln" data-ein="hoch">
       <h2 class="t-heading-sm">Das Problem ist selten die Technik.</h2>
       <p class="t-body schmal">Es ist der Fahrer, der am Freitagnachmittag die erste Säule
         nimmt, die er sieht. Ladehof zeigt ihm im selben Moment, dass die nächste
@@ -555,7 +607,7 @@ def wissen_seite() -> str:
         "Ohne Fachsprache, wo es ohne geht. So weit erklärt, wie man es braucht, um eine "
         "Abrechnung zu verstehen."
     ) + f'''
-<section class="abschnitt abschnitt--fog">
+<section class="abschnitt abschnitt--dunkel">
   <div class="huelle">{fragenliste(begriffe)}</div>
 </section>'''
 

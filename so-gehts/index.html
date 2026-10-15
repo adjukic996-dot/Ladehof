@@ -36,24 +36,31 @@
   </div>
 </section>
 <section class="abschnitt abschnitt--fog">
-  <div class="huelle"><ul class="gitter gitter--2" style="list-style:none"><li class="karte karte--paper" data-ein="hoch" style="--verzug:0ms">
+  <div class="huelle stapeln stapeln--weit">
+    <div class="reiterleiste" role="tablist" aria-label="Preisbestandteile" data-ein><button class="reiter" type="button" role="tab" id="r0" aria-controls="f0" aria-selected="true">Arbeitspreis</button><button class="reiter" type="button" role="tab" id="r1" aria-controls="f1" aria-selected="false">Grundgebühr</button><button class="reiter" type="button" role="tab" id="r2" aria-controls="f2" aria-selected="false">Roaming</button><button class="reiter" type="button" role="tab" id="r3" aria-controls="f3" aria-selected="false">Blockiergebühr</button></div>
+    <div class="reiterfeld karte karte--paper karte--gross" id="f0"
+         role="tabpanel" aria-labelledby="r0">
       <span class="chip">Bestandteil 1</span>
       <h3 class="t-subheading" style="color:var(--obsidian)">Der Arbeitspreis</h3>
-      <p class="t-body gedaempft">Was die Kilowattstunde kostet. Die einzige Zahl, die fast überall genannt wird — und selten die ganze Rechnung.</p></li><li class="karte karte--paper" data-ein="hoch" style="--verzug:100ms">
+      <p class="t-body gedaempft" style="max-width:62ch">Was die Kilowattstunde kostet. Die einzige Zahl, die fast überall genannt wird — und selten die ganze Rechnung.</p></div><div class="reiterfeld karte karte--paper karte--gross" id="f1"
+         role="tabpanel" aria-labelledby="r1" hidden>
       <span class="chip">Bestandteil 2</span>
       <h3 class="t-subheading" style="color:var(--obsidian)">Die Grundgebühr</h3>
-      <p class="t-body gedaempft">Viele Ladekarten kosten monatlich, auch wenn du nicht lädst. Ladehof rechnet sie anteilig auf deine Ladevorgänge um.</p></li><li class="karte karte--paper" data-ein="hoch" style="--verzug:200ms">
+      <p class="t-body gedaempft" style="max-width:62ch">Viele Ladekarten kosten monatlich, auch wenn du nicht lädst. Ladehof rechnet sie anteilig auf deine Ladevorgänge um.</p></div><div class="reiterfeld karte karte--paper karte--gross" id="f2"
+         role="tabpanel" aria-labelledby="r2" hidden>
       <span class="chip">Bestandteil 3</span>
       <h3 class="t-subheading" style="color:var(--obsidian)">Der Roaming-Aufschlag</h3>
-      <p class="t-body gedaempft">Lädst du im Netz eines anderen Betreibers, verrechnen die beiden untereinander. Der Aufschlag landet auf deiner Rechnung.</p></li><li class="karte karte--paper" data-ein="hoch" style="--verzug:300ms">
+      <p class="t-body gedaempft" style="max-width:62ch">Lädst du im Netz eines anderen Betreibers, verrechnen die beiden untereinander. Der Aufschlag landet auf deiner Rechnung.</p></div><div class="reiterfeld karte karte--paper karte--gross" id="f3"
+         role="tabpanel" aria-labelledby="r3" hidden>
       <span class="chip">Bestandteil 4</span>
       <h3 class="t-subheading" style="color:var(--obsidian)">Die Blockiergebühr</h3>
-      <p class="t-body gedaempft">Ein Betrag je Minute, nachdem das Auto voll ist. Sinnvoll, damit Plätze frei werden — nur steht er vorher fast nie dabei.</p></li></ul></div>
+      <p class="t-body gedaempft" style="max-width:62ch">Ein Betrag je Minute, nachdem das Auto voll ist. Sinnvoll, damit Plätze frei werden — nur steht er vorher fast nie dabei.</p></div>
+  </div>
 </section>
-<section class="abschnitt">
+<section class="abschnitt abschnitt--dunkel">
   <div class="huelle gitter gitter--seite">
     <div class="stapeln">
-      <h2 class="t-heading" style="color:var(--obsidian)" data-ein>Und das Eichrecht?</h2>
+      <h2 class="t-heading" data-ein>Und das Eichrecht?</h2>
       <p class="t-body" data-ein style="--verzug:100ms">Ladepunkte in Deutschland unterliegen
         dem Mess- und Eichrecht. Die abgerechnete Energiemenge muss nachprüfbar sein, und du
         musst deine Abrechnung gegen den Zählerstand prüfen können.</p>
