@@ -688,3 +688,59 @@ a, .knopf, .segment, .verweis{
     transition:none!important; animation:none!important;
   }
 }
+
+
+/* ===========================================================================
+   TYPOGRAFIE-DURCHGANG
+   Vier Befunde aus der Messung ueber 388 Textbloecke.
+   ========================================================================= */
+
+/* --- 1. Laufweite folgt der GERENDERTEN Groesse, nicht der Klasse. ------
+   Der Fehler: Die Schauschrift-Klassen skalieren per clamp(), trugen aber
+   eine feste Laufweite, die fuer die GROESSTE Groesse gedacht war. Auf dem
+   Handy rendert .t-heading-lg mit 46px und trug -0,030em — das ist die
+   Laufweite fuer 89px. Das System fordert dort -0,011em.
+   Gemessen: 11 Faelle, alle auf schmalen Schirmen.
+
+   Die Baender folgen der Tabelle des Designsystems:
+     45px -> -0,011em    61px -> -0,015em    89px und mehr -> -0,030em */
+.t-display,.t-aufmacher,.t-heading-lg{ letter-spacing:-.011em }
+.t-heading{ letter-spacing:-.011em }
+@media(min-width:700px){
+  .t-display,.t-aufmacher,.t-heading-lg{ letter-spacing:-.018em }
+  .t-heading{ letter-spacing:-.013em }
+}
+@media(min-width:1085px){
+  .t-display,.t-aufmacher,.t-heading-lg{ letter-spacing:-.030em }
+  .t-heading{ letter-spacing:-.015em }
+}
+
+/* --- 2. Zeilenlaenge deckeln. Gemessen: sieben Absaetze mit 84 bis 95
+   Zeichen je Zeile bei 1440px. Lesbar sind 45 bis 75. Das Mass von 1200px
+   ist fuer Layout gedacht, nicht fuer Fliesstext. ------------------------ */
+/* 56ch, nicht 68ch: Die Einheit `ch` ist die Breite der Ziffer Null, und die
+   ist in Inter deutlich breiter als das Durchschnittszeichen. Gemessen ergab
+   68ch = 686px = rund 86 echte Zeichen je Zeile — ein Viertel zu weit.
+   56ch landet bei rund 70 Zeichen und damit im lesbaren Band. */
+p.t-body, p.t-body-sm, p.t-body-lg,
+.klappe__innen p, .merkmal p, .reiterfeld p{ max-width:56ch }
+.mitte p, p.mitte{ margin-inline:auto }
+
+/* --- 3. Umbruch ausgleichen. `balance` verteilt Ueberschriften gleichmaessig
+   und verhindert Schusterjungen; `pretty` zieht einzelne Woerter aus der
+   letzten Zeile hoch. Gemessen: ein Schusterjunge im Impressum. ---------- */
+h1,h2,h3,.t-display,.t-aufmacher,.t-heading,.t-heading-lg,
+.t-heading-sm,.t-subheading{ text-wrap:balance }
+p,li{ text-wrap:pretty }
+
+/* --- 4. Ziffern in Tabellenbreite. Im Preisvergleich stehen Betraege
+   untereinander — mit Proportionalziffern tanzen sie. --------------------- */
+.balken + p, .vergleich, .preis__wert,
+[class*="t-heading"] { font-variant-numeric:tabular-nums }
+
+/* Lange deutsche Komposita duerfen im FLIESSTEXT trennen, statt den Kasten
+   zu sprengen. In Ueberschriften NICHT: dort hat break-word "Eichrechts-
+   konform" mitten im Wort umgebrochen. Ueberschriften regelt text-wrap:
+   balance, und zu lange Woerter faengt die Breitenpruefung ab. */
+p,li{ overflow-wrap:break-word; hyphens:auto }
+h1,h2,h3{ hyphens:manual; overflow-wrap:normal }
