@@ -43,6 +43,8 @@
   --d-schwung:600ms; --d-balken:1600ms;  --d-karussell:1000ms;
   --d-feld:400ms;
   --stufe-ein:100ms; --stufe-schwung:70ms;
+  --d-marquee:100ms;   /* gemessen: width .1s ease */
+  --d-symbol-op:150ms; --d-symbol-tf:300ms;  /* gemessen: Symbolbewegung */
 }
 
 @font-face{
@@ -596,5 +598,93 @@ a, .knopf, .segment, .verweis{
 @media(prefers-reduced-motion:reduce){
   .reiter,.klappe__chevron,.klappe__koerper,.karussell__folie,.karussell__punkt{
     transition:none!important;
+  }
+}
+
+
+/* ===========================================================================
+   DIE SECHS FEHLENDEN BEWEGUNGEN
+   Aus dem Abgleich: gemessen, aber ohne Bauteil. Jede bekommt hier eines,
+   das Ladehof ohnehin braucht.
+   ========================================================================= */
+
+/* --- 1. Laufband. Gemessen: width .1s ease auf den Elementen im Band. ---
+   Die Marken rutschen beim Zeigen kurz auseinander. */
+.band{ overflow:hidden; padding:var(--s24) 0 }
+.band__spur{ display:flex; gap:var(--s12); width:max-content; will-change:transform }
+.band__stueck{
+  flex:0 0 auto; display:flex; align-items:center; gap:var(--s12);
+  padding:var(--s8) var(--s20) var(--s8) var(--s8);
+  border-radius:var(--r-pille); background:var(--paper);
+  box-shadow:rgba(14,15,12,.12) 0 0 0 1px;
+  white-space:nowrap; text-decoration:none; color:var(--forest);
+}
+.band__marke{
+  flex:0 0 auto; width:32px; height:32px; border-radius:var(--r-kreis);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--paper); font-weight:900; font-size:12px; letter-spacing:-.02em;
+  transition:width var(--d-marquee) ease;
+}
+@media(any-hover:hover){ .band__stueck:hover .band__marke{ width:44px } }
+
+/* --- 2. und 3. Aufklappmenue im Kopf mit Abdunklung dahinter.
+   Gemessen: Tafelhoehe 350 ms Hauptkurve, Abdunklung opacity 350 ms. --- */
+.auswahlfeld{ position:relative }
+.auswahl{
+  position:absolute; top:100%; left:0; z-index:60;
+  min-width:15rem; overflow:hidden;
+  background:var(--paper); border-radius:var(--r-karte);
+  box-shadow:rgba(14,15,12,.12) 0 0 0 1px;
+  height:0; opacity:0; pointer-events:none;
+  transition:height var(--d-haupt) var(--k-haupt),
+             opacity var(--d-haupt) var(--k-haupt);
+}
+.auswahlfeld[data-auf="ja"] .auswahl{ opacity:1; pointer-events:auto }
+.auswahl__liste{ list-style:none; padding:var(--s8) }
+.auswahl__verweis{
+  display:block; padding:var(--s12) var(--s16); border-radius:var(--r-pille);
+  font-size:16px; font-weight:500; color:var(--forest); text-decoration:none;
+}
+@media(any-hover:hover){ .auswahl__verweis:hover{ background:var(--linen) } }
+.abdunklung{
+  position:fixed; inset:64px 0 0; z-index:40; background:rgba(14,15,12,.35);
+  opacity:0; pointer-events:none;
+  transition:opacity var(--d-haupt) var(--k-haupt);
+}
+.abdunklung[data-auf="ja"]{ opacity:1; pointer-events:auto }
+
+/* --- 4. Eingabefeld: Fokus ueber box-shadow, 300 ms. ------------------- */
+.feld input,.feld select,.feld textarea{
+  box-shadow:rgb(134,134,133) 0 0 0 0 inset;
+  transition:color var(--d-schnell) var(--k-schnell),
+             background-color var(--d-schnell) var(--k-schnell),
+             border-color var(--d-schnell) var(--k-schnell),
+             box-shadow var(--d-breite) var(--k-schnell);
+}
+.feld input:focus,.feld select:focus,.feld textarea:focus{
+  box-shadow:var(--forest) 0 0 0 1px inset;
+}
+
+/* --- 5. und 6. Symbole. Gemessen: fill 350 ms Hauptkurve, dazu
+   opacity 150 ms und transform 300 ms. --------------------------------- */
+.symbol{
+  width:24px; height:24px; flex:0 0 auto;
+  transition:opacity var(--d-symbol-op) ease,
+             transform var(--d-symbol-tf) ease;
+}
+.symbol path,.symbol circle,.symbol rect{
+  fill:var(--forest);
+  transition:fill var(--d-haupt) var(--k-haupt);
+}
+@media(any-hover:hover){
+  a:hover > .symbol,button:hover > .symbol{ transform:translateX(4px) }
+  a:hover > .symbol path,button:hover > .symbol path{ fill:var(--spruce) }
+}
+.abschnitt--dunkel .symbol path{ fill:var(--lime) }
+.merkmal__sinnbild .symbol path{ fill:var(--forest) }
+
+@media(prefers-reduced-motion:reduce){
+  .band__spur,.band__marke,.auswahl,.abdunklung,.symbol,.symbol path{
+    transition:none!important; animation:none!important;
   }
 }

@@ -17,7 +17,17 @@
     <a class="marke" href="/Ladehof/">Ladehof</a>
     <nav aria-label="Bereiche"><ul class="segmente"><li><a class="segment" href="/Ladehof/" aria-current="page">Privat</a></li><li><a class="segment" href="/Ladehof/fuer-flotten/">Flotte</a></li><li><a class="segment" href="/Ladehof/fuer-immobilien/">Immobilien</a></li></ul></nav>
     <div class="kopf__rechts">
-      <nav aria-label="Hauptnavigation"><ul class="kopf__liste"><li><a class="kopf__verweis" href="/Ladehof/so-gehts/">So geht&#x27;s</a></li><li><a class="kopf__verweis" href="/Ladehof/anbieter/">Anbieter</a></li><li><a class="kopf__verweis" href="/Ladehof/preise/">Preise</a></li><li><a class="kopf__verweis" href="/Ladehof/wissen/">Wissen</a></li></ul></nav>
+      <nav aria-label="Hauptnavigation"><ul class="kopf__liste">
+        <li class="auswahlfeld" data-auf="nein">
+          <button class="kopf__verweis" type="button" aria-expanded="false"
+                  aria-controls="produktmenue">Produkt</button>
+          <div class="auswahl" id="produktmenue"><ul class="auswahl__liste">
+            <li><a class="auswahl__verweis" href="/Ladehof/so-gehts/">So geht's</a></li>
+            <li><a class="auswahl__verweis" href="/Ladehof/anbieter/">Anbieter</a></li>
+            <li><a class="auswahl__verweis" href="/Ladehof/wissen/">Wissen</a></li>
+          </ul></div>
+        </li>
+        <li><a class="kopf__verweis" href="/Ladehof/preise/">Preise</a></li><li><a class="kopf__verweis" href="/Ladehof/ueber-uns/">Über uns</a></li></ul></nav>
       <a class="knopf knopf--voll" href="/Ladehof/kontakt/">Kostenlos starten</a>
       <button class="brenner" type="button" aria-expanded="false" aria-label="Menü">
         <span class="brenner__strich"></span><span class="brenner__strich"></span><span class="brenner__strich"></span>
@@ -25,7 +35,8 @@
     </div>
   </div>
 </header>
-<div class="blende" data-auf="nein"><nav aria-label="Menü"><a href="/Ladehof/">Privat</a><a href="/Ladehof/fuer-flotten/">Flotte</a><a href="/Ladehof/fuer-immobilien/">Immobilien</a><a href="/Ladehof/so-gehts/">So geht&#x27;s</a><a href="/Ladehof/anbieter/">Anbieter</a><a href="/Ladehof/preise/">Preise</a><a href="/Ladehof/wissen/">Wissen</a>
+<div class="abdunklung" data-abdunklung data-auf="nein"></div>
+<div class="blende" data-auf="nein"><nav aria-label="Menü"><a href="/Ladehof/">Privat</a><a href="/Ladehof/fuer-flotten/">Flotte</a><a href="/Ladehof/fuer-immobilien/">Immobilien</a><a href="/Ladehof/preise/">Preise</a><a href="/Ladehof/ueber-uns/">Über uns</a>
   <a href="/Ladehof/ueber-uns/">Über uns</a><a href="/Ladehof/kontakt/">Kontakt</a></nav></div>
 <main id="inhalt">
 <section class="abschnitt">
@@ -114,15 +125,31 @@
   </div>
 </section>
 
+<div class="band" data-band aria-label="Angebundene Ladenetze"><div class="band__spur"><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#0b4c72">V</span><span class="t-body-sm">Voltaris</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#163300">L</span><span class="t-body-sm">Ladebund</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#cb272f">KS</span><span class="t-body-sm">Kilowatt Süd</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#1d4ed8">B</span><span class="t-body-sm">Blauwerk</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#0f766e">N</span><span class="t-body-sm">Nordpol</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#7c2d12">S</span><span class="t-body-sm">Stromkreis</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#4338ca">A</span><span class="t-body-sm">Ampera</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#065f46">F</span><span class="t-body-sm">Flussnetz</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#9a3412">T</span><span class="t-body-sm">Taktstrom</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#365314">W</span><span class="t-body-sm">Weidezaun</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#1e3a5f">H</span><span class="t-body-sm">Hochspannung</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#581c87">LO</span><span class="t-body-sm">Ladewerk Ost</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#991b1b">P</span><span class="t-body-sm">Pfeilstrom</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#115e59">K</span><span class="t-body-sm">Kontaktpunkt</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#854d0e">S</span><span class="t-body-sm">Südlader</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#14532d">N</span><span class="t-body-sm">Netzgruen</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#3730a3">V</span><span class="t-body-sm">Vierkant</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#7f1d1d">R</span><span class="t-body-sm">Rastpunkt</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#164e63">Z</span><span class="t-body-sm">Zugkraft</span></a><a class="band__stueck" href="/Ladehof/anbieter/"><span class="band__marke" style="background:#1a2e05">SB</span><span class="t-body-sm">Steckdose Bayern</span></a></div></div>
+
+<section class="abschnitt">
+  <div class="huelle gitter gitter--seite">
+    <div data-ein="schwung"><img src="/Ladehof/bilder/laden-1400.webp" srcset="/Ladehof/bilder/laden-900.webp 900w, /Ladehof/bilder/laden-1400.webp 1400w" sizes="(min-width:1000px) 48vw, 100vw" alt="Eine Hand steckt ein Ladekabel in ein weisses Elektrofahrzeug" loading="lazy" decoding="async" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r-gross)"></div>
+    <div class="stapeln">
+      <h2 class="t-heading" style="color:var(--obsidian)" data-ein>Vor dem Einstecken,<br>nicht danach.</h2>
+      <p class="t-body" data-ein style="--verzug:100ms">Der Moment, in dem du das Kabel in der
+        Hand hast, ist der letzte, in dem du noch entscheiden kannst. Danach läuft die Abrechnung,
+        und was sie kostet, erfährst du Tage später.</p>
+      <p class="t-body gedaempft" data-ein style="--verzug:200ms">Ladehof verschiebt diese
+        Information nach vorn. Mehr ist es im Kern nicht.</p>
+    </div>
+  </div>
+</section>
+
 <section class="abschnitt">
   <div class="huelle stapeln stapeln--weit">
     <h2 class="t-heading mitte" style="color:var(--obsidian)" data-ein>Drei Schritte.</h2>
     <ul class="gitter gitter--3" style="list-style:none"><li class="merkmal" data-ein="hoch" style="--verzug:0ms">
-      <span class="merkmal__sinnbild"><span class="t-body" style="font-weight:900;color:var(--forest)">1</span></span>
+      <span class="merkmal__sinnbild"><svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>
       <h3>Finden</h3><p>Ladepunkte in deiner Nähe, mit Leistung, Steckertyp und freien Plätzen. Ohne Anmeldung, auch unterwegs.</p></li><li class="merkmal" data-ein="hoch" style="--verzug:100ms">
-      <span class="merkmal__sinnbild"><span class="t-body" style="font-weight:900;color:var(--forest)">2</span></span>
+      <span class="merkmal__sinnbild"><svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm1 3v3h10V5H7zm0 6v2h3v-2H7zm5 0v2h3v-2h-3zm-5 4v2h3v-2H7zm5 0v2h3v-2h-3z"/></svg></span>
       <h3>Rechnen</h3><p>Was dieser Ladevorgang über jeden Zugangsweg kostet. Mit Grundgebühr, Blockiergebühr und Roaming-Aufschlag — in Euro, nicht in Cent je Kilowattstunde.</p></li><li class="merkmal" data-ein="hoch" style="--verzug:200ms">
-      <span class="merkmal__sinnbild"><span class="t-body" style="font-weight:900;color:var(--forest)">3</span></span>
+      <span class="merkmal__sinnbild"><svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v6H6v4a6 6 0 0 0 5 5.9V22h2v-4.1A6 6 0 0 0 18 12V8h-2V2h-2v6h-4V2H8z"/></svg></span>
       <h3>Laden</h3><p>Freischaltung über den günstigsten Weg. Kein zusätzlicher Vertrag, keine weitere Karte im Portemonnaie.</p></li></ul>
   </div>
 </section>

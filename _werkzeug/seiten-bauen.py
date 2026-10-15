@@ -26,8 +26,8 @@ def u(pfad: str) -> str:
 # Designsystems — hier gefuellt mit den echten Segmenten des Unternehmens.
 # ---------------------------------------------------------------------------
 SEGMENTE = [("/", "Privat"), ("/fuer-flotten/", "Flotte"), ("/fuer-immobilien/", "Immobilien")]
-HAUPT    = [("/so-gehts/", "So geht's"), ("/anbieter/", "Anbieter"),
-            ("/preise/", "Preise"), ("/wissen/", "Wissen")]
+HAUPT    = [("/preise/", "Preise"), ("/ueber-uns/", "Über uns")]
+# "So geht's", "Anbieter" und "Wissen" liegen im Aufklappmenue "Produkt".
 
 # Anbieter im Vergleich. ALLE ERFUNDEN — siehe BRIEF.md, Grundregel.
 # Echte Betreiber mit erfundenen Preisen zu nennen kommt nicht in Frage.
@@ -43,6 +43,36 @@ ANBIETER = [
     ("Vierkant",       "#3730a3"), ("Rastpunkt",      "#7f1d1d"),
     ("Zugkraft",       "#164e63"), ("Steckdose Bayern","#1a2e05"),
 ]
+
+SYMBOLE = [
+    # Standnadel, Taschenrechner, Stecker, Liste — eigene, einfache Zeichnungen
+    '<svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>',
+    '<svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm1 3v3h10V5H7zm0 6v2h3v-2H7zm5 0v2h3v-2h-3zm-5 4v2h3v-2H7zm5 0v2h3v-2h-3z"/></svg>',
+    '<svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v6H6v4a6 6 0 0 0 5 5.9V22h2v-4.1A6 6 0 0 0 18 12V8h-2V2h-2v6h-4V2H8z"/></svg>',
+    '<svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v2H4V5zm0 6h16v2H4v-2zm0 6h10v2H4v-2z"/></svg>',
+]
+
+def bild(stamm, breiten, alt, groessen="(min-width:1000px) 48vw, 100vw") -> str:
+    """Inhaltsbild. Radius wie "largeCards" im Designsystem (28px)."""
+    srcset = ", ".join(f'{u("/bilder/")}{stamm}-{b}.webp {b}w' for b in breiten)
+    return (f'<img src="{u("/bilder/")}{stamm}-{breiten[-1]}.webp" srcset="{srcset}" '
+            f'sizes="{groessen}" alt="{e(alt)}" loading="lazy" decoding="async" '
+            f'style="width:100%;aspect-ratio:16/9;object-fit:cover;'
+            f'border-radius:var(--r-gross)">')
+
+
+def laufband() -> str:
+    """Laufband der Anbietermarken. Traegt die gemessenen 100 ms auf `width`:
+    die Marke rutscht beim Zeigen kurz auseinander."""
+    stuecke = "".join(
+        f'<a class="band__stueck" href="{u("/anbieter/")}">'
+        f'<span class="band__marke" style="background:{farbe}">'
+        f'{e("".join(w[0] for w in name.split()[:2]).upper())}</span>'
+        f'<span class="t-body-sm">{e(name)}</span></a>'
+        for name, farbe in ANBIETER)
+    return (f'<div class="band" data-band aria-label="Angebundene Ladenetze">'
+            f'<div class="band__spur">{stuecke}</div></div>')
+
 
 def stecker_svg() -> str:
     """Das eigene Bildmotiv. Kabel als SVG, damit der Ladeimpuls darauf
@@ -96,7 +126,17 @@ def kopfzeile(aktiv: str = "") -> str:
     <a class="marke" href="{u("/")}">Ladehof</a>
     <nav aria-label="Bereiche"><ul class="segmente">{seg}</ul></nav>
     <div class="kopf__rechts">
-      <nav aria-label="Hauptnavigation"><ul class="kopf__liste">{haupt}</ul></nav>
+      <nav aria-label="Hauptnavigation"><ul class="kopf__liste">
+        <li class="auswahlfeld" data-auf="nein">
+          <button class="kopf__verweis" type="button" aria-expanded="false"
+                  aria-controls="produktmenue">Produkt</button>
+          <div class="auswahl" id="produktmenue"><ul class="auswahl__liste">
+            <li><a class="auswahl__verweis" href="{u("/so-gehts/")}">So geht's</a></li>
+            <li><a class="auswahl__verweis" href="{u("/anbieter/")}">Anbieter</a></li>
+            <li><a class="auswahl__verweis" href="{u("/wissen/")}">Wissen</a></li>
+          </ul></div>
+        </li>
+        {haupt}</ul></nav>
       <a class="knopf knopf--voll" href="{u("/kontakt/")}">Kostenlos starten</a>
       <button class="brenner" type="button" aria-expanded="false" aria-label="Menü">
         <span class="brenner__strich"></span><span class="brenner__strich"></span><span class="brenner__strich"></span>
@@ -104,6 +144,7 @@ def kopfzeile(aktiv: str = "") -> str:
     </div>
   </div>
 </header>
+<div class="abdunklung" data-abdunklung data-auf="nein"></div>
 <div class="blende" data-auf="nein"><nav aria-label="Menü">{menue}
   <a href="{u("/ueber-uns/")}">Über uns</a><a href="{u("/kontakt/")}">Kontakt</a></nav></div>'''
 
@@ -258,7 +299,7 @@ def fragenliste(fragen) -> str:
 
 def start() -> str:
     schritte = "".join(f'''<li class="merkmal" data-ein="hoch" style="--verzug:{i*100}ms">
-      <span class="merkmal__sinnbild"><span class="t-body" style="font-weight:900;color:var(--forest)">{i+1}</span></span>
+      <span class="merkmal__sinnbild">{SYMBOLE[i % len(SYMBOLE)]}</span>
       <h3>{e(t)}</h3><p>{e(x)}</p></li>''' for i, (t, x) in enumerate(SCHRITTE))
 
     segmente = [
@@ -304,6 +345,23 @@ def start() -> str:
         rechnet Ladehof vorher aus.</p>
     </div>
     <div class="karte karte--paper karte--gross">{vergleichsbalken()}</div>
+  </div>
+</section>
+
+{laufband()}
+
+<section class="abschnitt">
+  <div class="huelle gitter gitter--seite">
+    <div data-ein="schwung">{bild("laden", [900, 1400],
+      "Eine Hand steckt ein Ladekabel in ein weisses Elektrofahrzeug")}</div>
+    <div class="stapeln">
+      <h2 class="t-heading" style="color:var(--obsidian)" data-ein>Vor dem Einstecken,<br>nicht danach.</h2>
+      <p class="t-body" data-ein style="--verzug:100ms">Der Moment, in dem du das Kabel in der
+        Hand hast, ist der letzte, in dem du noch entscheiden kannst. Danach läuft die Abrechnung,
+        und was sie kostet, erfährst du Tage später.</p>
+      <p class="t-body gedaempft" data-ein style="--verzug:200ms">Ladehof verschiebt diese
+        Information nach vorn. Mehr ist es im Kern nicht.</p>
+    </div>
   </div>
 </section>
 
@@ -449,12 +507,16 @@ def fuer_flotten() -> str:
          "Anruf beim Betreiber."),
     ]
     liste = "".join(f'''<li class="merkmal" data-ein="hoch" style="--verzug:{i*100}ms">
-      <span class="merkmal__sinnbild"><span class="t-body" style="font-weight:900;color:var(--forest)">{i+1}</span></span>
+      <span class="merkmal__sinnbild">{SYMBOLE[i % len(SYMBOLE)]}</span>
       <h3>{e(t)}</h3><p>{e(x)}</p></li>''' for i, (t, x) in enumerate(punkte))
     return kopfblock("Flotte", "Vierzig Fahrzeuge,<br>eine Rechnung.",
         "Für Handwerksbetriebe, Pflegedienste und Lieferdienste mit fünf bis achtzig "
         "Fahrzeugen. Ab 4 € je Fahrzeug und Monat."
     ) + f'''
+<section class="abschnitt">
+  <div class="huelle" data-ein="schwung">{bild("flotte", [700, 1200],
+    "Eine Reihe weisser Transporter auf einem Betriebshof", groessen="100vw")}</div>
+</section>
 <section class="abschnitt abschnitt--fog">
   <div class="huelle"><ul class="gitter gitter--2" style="list-style:none">{liste}</ul></div>
 </section>
@@ -504,6 +566,10 @@ def fuer_immobilien() -> str:
         "Für Hausverwaltungen und Gewerbeparks mit Ladepunkten im Haus. Abgerechnet wird "
         "nach Ladepunkten, nicht nach Wohneinheiten."
     ) + f'''
+<section class="abschnitt">
+  <div class="huelle" data-ein="schwung">{bild("immobilien", [700, 1200],
+    "Moderne Tiefgarage mit abgestellten Autos", groessen="100vw")}</div>
+</section>
 <section class="abschnitt abschnitt--fog">
   <div class="huelle"><ul class="gitter gitter--3" style="list-style:none">{liste}</ul></div>
 </section>'''

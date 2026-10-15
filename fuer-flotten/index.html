@@ -17,7 +17,17 @@
     <a class="marke" href="/Ladehof/">Ladehof</a>
     <nav aria-label="Bereiche"><ul class="segmente"><li><a class="segment" href="/Ladehof/">Privat</a></li><li><a class="segment" href="/Ladehof/fuer-flotten/" aria-current="page">Flotte</a></li><li><a class="segment" href="/Ladehof/fuer-immobilien/">Immobilien</a></li></ul></nav>
     <div class="kopf__rechts">
-      <nav aria-label="Hauptnavigation"><ul class="kopf__liste"><li><a class="kopf__verweis" href="/Ladehof/so-gehts/">So geht&#x27;s</a></li><li><a class="kopf__verweis" href="/Ladehof/anbieter/">Anbieter</a></li><li><a class="kopf__verweis" href="/Ladehof/preise/">Preise</a></li><li><a class="kopf__verweis" href="/Ladehof/wissen/">Wissen</a></li></ul></nav>
+      <nav aria-label="Hauptnavigation"><ul class="kopf__liste">
+        <li class="auswahlfeld" data-auf="nein">
+          <button class="kopf__verweis" type="button" aria-expanded="false"
+                  aria-controls="produktmenue">Produkt</button>
+          <div class="auswahl" id="produktmenue"><ul class="auswahl__liste">
+            <li><a class="auswahl__verweis" href="/Ladehof/so-gehts/">So geht's</a></li>
+            <li><a class="auswahl__verweis" href="/Ladehof/anbieter/">Anbieter</a></li>
+            <li><a class="auswahl__verweis" href="/Ladehof/wissen/">Wissen</a></li>
+          </ul></div>
+        </li>
+        <li><a class="kopf__verweis" href="/Ladehof/preise/">Preise</a></li><li><a class="kopf__verweis" href="/Ladehof/ueber-uns/">Über uns</a></li></ul></nav>
       <a class="knopf knopf--voll" href="/Ladehof/kontakt/">Kostenlos starten</a>
       <button class="brenner" type="button" aria-expanded="false" aria-label="Menü">
         <span class="brenner__strich"></span><span class="brenner__strich"></span><span class="brenner__strich"></span>
@@ -25,7 +35,8 @@
     </div>
   </div>
 </header>
-<div class="blende" data-auf="nein"><nav aria-label="Menü"><a href="/Ladehof/">Privat</a><a href="/Ladehof/fuer-flotten/">Flotte</a><a href="/Ladehof/fuer-immobilien/">Immobilien</a><a href="/Ladehof/so-gehts/">So geht&#x27;s</a><a href="/Ladehof/anbieter/">Anbieter</a><a href="/Ladehof/preise/">Preise</a><a href="/Ladehof/wissen/">Wissen</a>
+<div class="abdunklung" data-abdunklung data-auf="nein"></div>
+<div class="blende" data-auf="nein"><nav aria-label="Menü"><a href="/Ladehof/">Privat</a><a href="/Ladehof/fuer-flotten/">Flotte</a><a href="/Ladehof/fuer-immobilien/">Immobilien</a><a href="/Ladehof/preise/">Preise</a><a href="/Ladehof/ueber-uns/">Über uns</a>
   <a href="/Ladehof/ueber-uns/">Über uns</a><a href="/Ladehof/kontakt/">Kontakt</a></nav></div>
 <main id="inhalt">
 <section class="abschnitt">
@@ -35,15 +46,18 @@
     <p class="t-body-lg schmal" data-ein style="--verzug:100ms">Für Handwerksbetriebe, Pflegedienste und Lieferdienste mit fünf bis achtzig Fahrzeugen. Ab 4 € je Fahrzeug und Monat.</p>
   </div>
 </section>
+<section class="abschnitt">
+  <div class="huelle" data-ein="schwung"><img src="/Ladehof/bilder/flotte-1200.webp" srcset="/Ladehof/bilder/flotte-700.webp 700w, /Ladehof/bilder/flotte-1200.webp 1200w" sizes="100vw" alt="Eine Reihe weisser Transporter auf einem Betriebshof" loading="lazy" decoding="async" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r-gross)"></div>
+</section>
 <section class="abschnitt abschnitt--fog">
   <div class="huelle"><ul class="gitter gitter--2" style="list-style:none"><li class="merkmal" data-ein="hoch" style="--verzug:0ms">
-      <span class="merkmal__sinnbild"><span class="t-body" style="font-weight:900;color:var(--forest)">1</span></span>
+      <span class="merkmal__sinnbild"><svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>
       <h3>Sammelabrechnung</h3><p>Eine Rechnung im Monat statt vierzig Einzelbelege aus sechs Netzen.</p></li><li class="merkmal" data-ein="hoch" style="--verzug:100ms">
-      <span class="merkmal__sinnbild"><span class="t-body" style="font-weight:900;color:var(--forest)">2</span></span>
+      <span class="merkmal__sinnbild"><svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm1 3v3h10V5H7zm0 6v2h3v-2H7zm5 0v2h3v-2h-3zm-5 4v2h3v-2H7zm5 0v2h3v-2h-3z"/></svg></span>
       <h3>Kostenstellen</h3><p>Jeder Ladevorgang wird einem Fahrzeug und einer Kostenstelle zugeordnet.</p></li><li class="merkmal" data-ein="hoch" style="--verzug:200ms">
-      <span class="merkmal__sinnbild"><span class="t-body" style="font-weight:900;color:var(--forest)">3</span></span>
+      <span class="merkmal__sinnbild"><svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v6H6v4a6 6 0 0 0 5 5.9V22h2v-4.1A6 6 0 0 0 18 12V8h-2V2h-2v6h-4V2H8z"/></svg></span>
       <h3>Auswertung je Fahrer</h3><p>Wer lädt wo, zu welchem Preis. Nicht zur Kontrolle, sondern weil Gewohnheiten Geld kosten.</p></li><li class="merkmal" data-ein="hoch" style="--verzug:300ms">
-      <span class="merkmal__sinnbild"><span class="t-body" style="font-weight:900;color:var(--forest)">4</span></span>
+      <span class="merkmal__sinnbild"><svg class="symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v2H4V5zm0 6h16v2H4v-2zm0 6h10v2H4v-2z"/></svg></span>
       <h3>Ladekarten verwalten</h3><p>Karten sperren, nachbestellen, Fahrzeugen zuordnen — ohne Anruf beim Betreiber.</p></li></ul></div>
 </section>
 <section class="abschnitt">

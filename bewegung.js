@@ -154,7 +154,70 @@
     });
   };
 
-  const los = () => { einblenden(); menue(); reiter(); klappen(); karussell(); };
+  /* -- 6. Laufband --------------------------------------------------------
+     Zeitbasiert statt bildbasiert, sonst laeuft es auf einem 120-Hz-Schirm
+     doppelt so schnell. Die Spur wird verdoppelt, damit der Umbruch nicht
+     sichtbar ist. */
+  const laufband = () => {
+    if (sparsam.matches) return;
+    document.querySelectorAll("[data-band]").forEach((band) => {
+      const spur = band.querySelector(".band__spur");
+      if (!spur) return;
+      spur.append(...[...spur.children].map(k => k.cloneNode(true)));
+      let t0 = null;
+      const fahre = (t) => {
+        if (t0 === null) t0 = t;
+        const halb = spur.scrollWidth / 2;
+        if (halb > 0) {
+          const weg = (((t - t0) / 1000) * 32) % halb;
+          spur.style.transform = `translate3d(${-weg}px,0,0)`;
+        }
+        requestAnimationFrame(fahre);
+      };
+      requestAnimationFrame(fahre);
+    });
+  };
+
+  /* -- 7. Aufklappmenue im Kopf mit Abdunklung ---------------------------
+     Gemessen: Tafelhoehe 350 ms Hauptkurve, Abdunklung opacity 350 ms.
+     Die Hoehe muss in Pixeln laufen, `auto` laesst sich nicht uebergehen. */
+  const auswahl = () => {
+    const abdunklung = document.querySelector("[data-abdunklung]");
+    const felder = [...document.querySelectorAll(".auswahlfeld")];
+    if (!felder.length) return;
+
+    const schliesseAlle = (ausser) => {
+      for (const feld of felder) {
+        if (feld === ausser) continue;
+        feld.dataset.auf = "nein";
+        feld.querySelector("button")?.setAttribute("aria-expanded", "false");
+        const tafel = feld.querySelector(".auswahl");
+        if (tafel) tafel.style.height = "0px";
+      }
+      if (abdunklung && !ausser) abdunklung.dataset.auf = "nein";
+    };
+
+    for (const feld of felder) {
+      const knopf = feld.querySelector("button");
+      const tafel = feld.querySelector(".auswahl");
+      if (!knopf || !tafel) continue;
+      tafel.style.height = "0px";
+
+      knopf.addEventListener("click", () => {
+        const auf = feld.dataset.auf !== "ja";
+        schliesseAlle(auf ? feld : null);
+        feld.dataset.auf = auf ? "ja" : "nein";
+        knopf.setAttribute("aria-expanded", String(auf));
+        tafel.style.height = auf ? tafel.scrollHeight + "px" : "0px";
+        if (abdunklung) abdunklung.dataset.auf = auf ? "ja" : "nein";
+      });
+    }
+
+    abdunklung?.addEventListener("click", () => schliesseAlle(null));
+    addEventListener("keydown", (ev) => { if (ev.key === "Escape") schliesseAlle(null); });
+  };
+
+  const los = () => { einblenden(); menue(); reiter(); klappen(); karussell(); laufband(); auswahl(); };
   if (document.readyState === "loading") addEventListener("DOMContentLoaded", los);
   else los();
 })();
